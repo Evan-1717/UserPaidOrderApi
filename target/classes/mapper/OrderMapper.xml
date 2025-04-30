@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rabbiter.mapper.OrderMapper">
+
+
+    <insert id="batchInsertOrder" parameterType="java.util.Map">
+        INSERT INTO `${tableName}` (activity, app_id, app_name, book_category, book_gender,
+        book_id, book_name, device_id, distributor_id, ip, out_trade_no, pay_amount,
+        pay_timestamp ,promotion_id, promotion_name, register_time, trade_no_raw, union_id, user_agent) VALUES
+        <foreach collection="orderList" item="item" separator=",">
+            (#{item.activity}, #{item.app_id}, #{item.app_name}, #{item.book_category}, #{item.book_gender},
+            #{item.book_id}, #{item.book_name}, #{item.device_id}, #{item.distributor_id}, #{item.ip}, #{item.out_trade_no},
+            #{item.pay_amount}, #{item.pay_timestamp}, #{item.promotion_id}, #{item.promotion_name}, #{item.register_time},
+            #{item.trade_no_raw}, #{item.union_id}, #{item.user_agent})
+        </foreach>
+    </insert>
+
+    <insert id="insertPromotion" parameterType="java.util.Map">
+        INSERT INTO `promotion` (promotion_id, promotion_name, user_name, mini_program_name) VALUES
+        (#{promotion_id}, #{promotion_name}, #{user_name}, #{mini_program_name})
+    </insert>
+
+    <insert id="insertDistributor" parameterType="java.util.Map">
+        INSERT INTO `distributor` (account, distributor_id, secret_key, app_id, mini_program_name) VALUES
+        (#{account}, #{distributor_id}, #{secret_key}, #{app_id}, #{mini_program_name})
+    </insert>
+
+    <select id="selectPromotionById" resultType="java.util.Map" >
+        select * from `promotion` where promotion_id = #{promotion_id}
+    </select>
+
+    <select id="selectDistributorById" resultType="java.util.Map">
+        select * from `distributor` where distributor_id = #{distributorId}
+    </select>
+
+    <select id="selectPerantDistributor" resultType="java.util.Map"  parameterType="java.util.List">
+        select * from `distributor` where distributor_id in (
+        <foreach collection="distributorList" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+    <update id="createOrder">
+         CREATE TABLE IF not EXISTS  `${tableName}`  (
+          `id` int(0) NOT NULL AUTO_INCREMENT,
+          `activity` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `app_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `app_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `book_category` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `book_gender` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `book_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `book_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `device_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `distributor_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `ip` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `out_trade_no` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `pay_amount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `pay_timestamp` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `promotion_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `promotion_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `register_time` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `trade_no_raw` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `union_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `user_agent` varchar(512) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          PRIMARY KEY (`id`) USING BTREE
+        ) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+
+    </update>
+</mapper>
+

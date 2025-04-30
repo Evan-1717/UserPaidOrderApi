@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rabbiter.mapper.NovelMapper">
+
+
+    <insert id="batchInsertNovel" parameterType="java.util.Map">
+        INSERT INTO `likeCount` (materialId, likeCount, commentCount, shareCount, favoriteCount) VALUES
+        <foreach collection="likeCountList" item="item" separator=",">
+            (#{item.materialId}, #{item.likeCount}, #{item.commentCount}, #{item.shareCount}, #{item.favoriteCount})
+        </foreach>
+    </insert>
+
+    <select id="selectLikeCount" resultType="java.util.Map" >
+        SELECT * FROM `likeCount` ORDER BY CAST(likeCount AS UNSIGNED) desc LIMIT 100
+    </select>
+
+    <update id="createLikeCount">
+         CREATE TABLE IF not EXISTS  `likeCount`  (
+          `id` int(0) NOT NULL AUTO_INCREMENT,
+          `materialId` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `likeCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `commentCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `shareCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `favoriteCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          PRIMARY KEY (`id`) USING BTREE
+         ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+    </update>
+
+    <update id="dropLikeCount">
+         DROP TABLE IF EXISTS  `likeCount`;
+    </update>
+
+    <update id="createNovelInfo">
+         CREATE TABLE IF not EXISTS  `novelinfo`  (
+          `id` int(0) NOT NULL AUTO_INCREMENT,
+          `materialId` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `likeCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `commentCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `shareCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `favoriteCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `awemeId` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `awemeUrl` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `title` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `bookId` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `publishTime` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `createTime` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `updateTime` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          PRIMARY KEY (`id`) USING BTREE
+         ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+    </update>
+
+    <insert id="insertNovel" parameterType="java.util.Map">
+        INSERT INTO `novelinfo` (materialId, likeCount, commentCount, shareCount, favoriteCount, awemeId, awemeUrl, title, bookId, publishTime, createTime, updateTime) VALUES
+            (#{materialId}, #{likeCount}, #{commentCount}, #{shareCount}, #{favoriteCount}, #{awemeId} , #{awemeUrl}, #{title}, #{bookId}, #{publishTime}
+            , #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="dropNovelInfo">
+         DROP TABLE IF EXISTS  `novelinfo`;
+    </update>
+
+</mapper>

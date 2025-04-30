@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rabbiter.mapper.AdvertiserCostMapper">
+
+    <select id="getAdvertiserId" resultType="java.lang.String" >
+        select advertiser_id from `advertiser_cost` where
+        advertiser_id in (
+        <foreach collection="advertiserIdList" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+    <insert id="dealNewAdvertiser" parameterType="java.util.Map">
+        INSERT INTO `advertiser_cost` (date, update_date, advertiser_id, media_advertiser_nick, media_account_id, fund_cost, fund_recharge,
+        stat_cost, pay_amount_roi, stat_pay_amount, media_account_name, media_source, creater) VALUES
+        <foreach collection="advertiserInfo" item="item" separator=",">
+            (#{item.date}, #{item.update_date}, #{item.advertiser_id}, #{item.media_advertiser_nick}, #{item.media_account_id}, #{item.fund_cost}, #{item.fund_recharge},
+            #{item.stat_cost}, #{item.pay_amount_roi}, #{item.stat_pay_amount}, #{item.media_account_name}, #{item.media_source}, #{item.creater})
+        </foreach>
+    </insert>
+
+    <update id="dealExistAdvertiser" parameterType="java.util.Map">
+        <foreach collection="advertiserInfo" item="item">
+            UPDATE `advertiser_cost`
+            SET fund_cost = #{item.fund_cost}, fund_recharge = #{item.fund_recharge}, stat_cost = #{item.stat_cost}, update_date = #{item.update_date}
+            WHERE advertiser_id = #{item.advertiser_id};
+        </foreach>
+    </update>
+
+    <update id="dealDailyAdvertiser" parameterType="java.util.Map">
+        <foreach collection="advertiserInfo" item="item">
+            UPDATE `advertiser_cost`
+            SET daily_cost = JSON_ARRAY_APPEND(daily_cost, '$', CONCAT(#{item.stat_datetime}, ':',#{item.fund_cost})),
+            daily_recharge = JSON_ARRAY_APPEND(daily_recharge, '$', CONCAT(#{item.stat_datetime}, ':',#{item.fund_recharge}))
+            WHERE advertiser_id = #{item.advertiser_id};
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,219 @@
+POST http://106.14.81.169:8003/api/order/userpaidorder
+Content-Type: application/x-www-form-urlencoded
+
+{
+"activity": "111",
+  "app_id": "222"
+}
+
+###
+
+POST http://localhost:8003/api/order/api5
+Content-Type: application/json
+
+{
+  "distributor_id": "1827116525154409",
+  "book_id": "7478169286466093577"
+}
+
+###
+
+POST http://localhost:8003/api/order/api7
+Content-Type: application/json
+
+{
+  "distributor_id": "1814524549803018",
+  "ts": "1742905896",
+  "book_id": "7477466360931418651",
+  "media_source": "4",
+  "index": "1",
+  "promotion_name": "test"
+}
+
+###
+
+POST http://localhost:8003/api/order/api11
+Content-Type: application/json
+
+{
+  "distributor_id": "1811885914614875",
+  "promotion_id": "1827996014890202"
+}
+
+###
+
+POST http://localhost:8003/api/order/api15
+Content-Type: application/json
+
+{
+  "distributor_id": "1811885914614875"
+}
+
+###
+
+POST http://localhost:8003/api/order/api8
+Content-Type: application/json
+
+{
+  "distributor_id": "1827116525154409"
+}
+
+###
+
+
+POST http://localhost:8003/api/order/api20
+Content-Type: application/json
+
+{
+  "distributor_id": "1811885914614875",
+  "ts": "1742383087"
+}
+
+###
+
+POST http://localhost:8003/api/order/api21
+Content-Type: application/json
+
+{
+  "distributor_id": "1823743747048794",
+  "ts": "1742383087"
+}
+
+###
+
+POST http://localhost:8003/api/order/api23
+Content-Type: application/json
+
+{
+  "distributor_id": "1816664911639643",
+  "ts": "1742383087",
+  "book_id": "7436609271342826011"
+}
+
+###
+
+POST http://localhost:8003/api/order/api24
+Content-Type: application/json
+
+{
+  "distributor_id": "1805374509249641",
+  "ts": "1742920018",
+  "book_id": "7436609271342826011",
+  "chapter_id":"7437732146398495241"
+}
+
+###
+
+POST http://localhost:8003/api/order/api25
+Content-Type: application/json
+
+{
+  "distributor_id": "1805374509249641"
+}
+
+###
+
+POST http://localhost:8003/api/order/api26
+Content-Type: application/json
+
+{
+  "distributor_id": "1810965673071643",
+  "app_id": "30012338"
+}
+
+###
+
+
+POST http://localhost:8003/api/order/api28
+Content-Type: application/json
+
+{
+  "distributor_id": "1811885914614875",
+  "media_source": 1
+}
+
+###
+
+POST http://localhost:8003/api/order/novel/token
+Content-Type: application/json
+
+{
+  "userName":  "18717818587",
+  "password":  "74a89f62cf4aad53bfc69cfbdd38756c",
+  "verCode":  "8587",
+  "loginType":  "OPENAPI_NOVEL"
+}
+
+###
+
+POST http://localhost:8003/api/order/novel/material
+Content-Type: application/json
+
+{
+"page": "30"
+}
+
+###
+
+POST http://localhost:8003/api/order/novel/detail
+Content-Type: application/json
+
+{
+
+}
+
+###
+
+POST http://localhost:8003/api/novel/dealTopNovel_test
+Content-Type: application/json
+
+{
+
+}
+
+###
+
+POST http://localhost:8003/api/novel/dealAdvertiserCost_test
+Content-Type: application/json
+
+{
+
+}
+
+###
+
+POST http://106.14.81.169:8003/api/novel/dealAdvertiserCost_test
+Content-Type: application/json
+
+{
+
+}
+
+###
+
+POST http://localhost:8003/api/novel/dealDailyAdvertiser_test
+Content-Type: application/json
+
+{
+
+}
+
+###
+
+POST http://localhost:8003/api/novel/dealAllNovel
+Content-Type: application/json
+
+{
+
+}
+
+###
+
+POST http://106.14.81.169:8003/api/novel/dealTopNovel_test
+Content-Type: application/json
+
+{
+
+}
+
+###

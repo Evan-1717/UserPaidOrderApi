@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rabbiter.mapper.PromotionMapper">
+
+
+    <select id="selectDistributor" resultType="java.util.Map">
+        select * from `distributor`
+    </select>
+
+    <insert id="batchInsertPromotion" parameterType="java.util.List">
+        <foreach collection="list" item="item" >
+        INSERT INTO `promotion` (promotion_id, promotion_name, user_name, mini_program_name)
+            SELECT #{item.promotion_id}, #{item.promotion_name}, #{item.user_name}, #{item.mini_program_name}
+            FROM DUAL
+            WHERE NOT EXISTS (
+            SELECT 1 FROM `promotion`
+            WHERE promotion_id = #{item.promotion_id}  -- 根据条件判断是否存在
+            );
+        </foreach>
+    </insert>
+
+    <select id="calculateRecharge" resultType="java.lang.Double" parameterType="java.util.Map">
+        SELECT SUM(pay_amount)
+        from `${tableName}`
+        where 1=1
+        <if test="promotionName!=null and promotionName!=''">
+            and promotion_name = #{promotionName}
+        </if>
+    </select>
+
+</mapper>
+

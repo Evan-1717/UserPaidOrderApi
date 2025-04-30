@@ -1,0 +1,13 @@
+server:
+  port: 8003
+
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/playlet_manage?useUnicode=true&characterEncoding=utf-8&serveTimezone=UTC&allowMultiQueries=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: netcare
+    password: netcare
+
+Logging:
+  level:
+    com.rabbiter: info
