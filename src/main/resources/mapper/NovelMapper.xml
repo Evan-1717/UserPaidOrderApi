@@ -4,14 +4,14 @@
 
 
     <insert id="batchInsertNovel" parameterType="java.util.Map">
-        INSERT INTO `likeCount` (materialId, likeCount, commentCount, shareCount, favoriteCount) VALUES
+        INSERT INTO `likeCount` (materialId, likeCount, commentCount, shareCount, favoriteCount, heat) VALUES
         <foreach collection="likeCountList" item="item" separator=",">
-            (#{item.materialId}, #{item.likeCount}, #{item.commentCount}, #{item.shareCount}, #{item.favoriteCount})
+            (#{item.materialId}, #{item.likeCount}, #{item.commentCount}, #{item.shareCount}, #{item.favoriteCount}, #{item.heat})
         </foreach>
     </insert>
 
     <select id="selectLikeCount" resultType="java.util.Map" >
-        SELECT * FROM `likeCount` ORDER BY CAST(likeCount AS UNSIGNED) desc LIMIT 100
+        SELECT * FROM `likeCount` ORDER BY CAST(heat AS UNSIGNED) desc LIMIT 500
     </select>
 
     <update id="createLikeCount">
@@ -22,6 +22,7 @@
           `commentCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
           `shareCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
           `favoriteCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `heat` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
           PRIMARY KEY (`id`) USING BTREE
          ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
     </update>

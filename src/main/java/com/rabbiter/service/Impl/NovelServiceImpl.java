@@ -9,10 +9,7 @@ import com.rabbiter.service.NovelService;
 import com.rabbiter.service.OrderService;
 import com.rabbiter.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,12 +55,18 @@ public class NovelServiceImpl extends ServiceImpl<OrderMapper, UserPaidOrder> im
             if (null == data) {
                 break;
             }
+            if (data.size()==0) {
+                continue;
+            }
             novelMapper.batchInsertNovel(data);
         }
         List<Map<String,Object>> topData = novelMapper.selectLikeCount();
         List<List<String>> sheet = new ArrayList<>();
         for(Map<String,Object> value : topData) {
             Map<String,Object> detail = noveldetail(value.get("materialId").toString(), token);
+            if (!"黑岩".equals(detail.get("platform").toString())) {
+                continue;
+            }
             sheet.add(transform2(value, detail));
         }
         String sheetName = Utils.getTime6(time+"").substring(5, 13) + "点";
@@ -144,11 +147,12 @@ public class NovelServiceImpl extends ServiceImpl<OrderMapper, UserPaidOrder> im
         };
         HttpHeaders headers = new HttpHeaders();
         headers.add("token",  token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Map<String,String>> entity = new HttpEntity<>(param, headers);
         ResponseEntity<Map> res = restTemplate.exchange(url, HttpMethod.POST, entity, Map.class);
         List<Map<String,Object>> list = (List<Map<String,Object>>)((Map<String, Object>)res.getBody().get("data")).get("list");
         List<Map<String,String>> newList = transform(list);
-        if (newList.size()>0) {
+        if (list.size()>0) {
             return newList;
         }
         return null;
@@ -160,13 +164,11 @@ public class NovelServiceImpl extends ServiceImpl<OrderMapper, UserPaidOrder> im
             Map<String,String> newMap = new HashMap<>();
             newMap.put("materialId", map.get("materialId").toString());
             String likeCount = ((Map<String,Object>)map.get("likeCount")).get("countStr").toString();
-            if ("0".equals(likeCount)) {
-                continue;
-            }
             newMap.put("likeCount", likeCount);
             newMap.put("commentCount", ((Map<String,Object>)map.get("commentCount")).get("countStr").toString());
             newMap.put("shareCount", ((Map<String,Object>)map.get("shareCount")).get("countStr").toString());
             newMap.put("favoriteCount", ((Map<String,Object>)map.get("favoriteCount")).get("countStr").toString());
+            newMap.put("heat", map.get("heat").toString());
             resList.add(newMap);
         }
         return resList;
@@ -175,6 +177,9 @@ public class NovelServiceImpl extends ServiceImpl<OrderMapper, UserPaidOrder> im
     private List<String> transform2(Map<String,Object> value, Map<String,Object> detail) {
         List<String> resList = new ArrayList<>();
         resList.add(value.get("materialId").toString());
+        resList.add(detail.get("bookId").toString());
+        resList.add(detail.get("bookName").toString());
+        resList.add(detail.get("heat").toString());
         resList.add(value.get("likeCount").toString());
         resList.add(value.get("commentCount").toString());
         resList.add(value.get("shareCount").toString());
@@ -182,7 +187,6 @@ public class NovelServiceImpl extends ServiceImpl<OrderMapper, UserPaidOrder> im
         resList.add(detail.get("awemeId").toString());
         resList.add(detail.get("awemeUrl").toString());
         resList.add(detail.get("title").toString());
-        resList.add(detail.get("bookId").toString());
         resList.add(Utils.getTime6(detail.get("publishTime").toString()));
         resList.add(Utils.getTime6(detail.get("createTime").toString()));
         resList.add(Utils.getTime6(detail.get("updateTime").toString()));

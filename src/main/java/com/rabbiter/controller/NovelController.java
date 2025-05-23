@@ -44,20 +44,25 @@ public class NovelController {
     List<List<String>> head = new ArrayList<List<String>>() {
         {
             add(new ArrayList<String>(Arrays.asList(new String[]{"素材id"})));
+            add(new ArrayList<String>(Arrays.asList(new String[]{"小说ID"})));
+            add(new ArrayList<String>(Arrays.asList(new String[]{"小说名称"})));
+            add(new ArrayList<String>(Arrays.asList(new String[]{"热度值"})));
             add(new ArrayList<String>(Arrays.asList(new String[]{"点赞数"})));
             add(new ArrayList<String>(Arrays.asList(new String[]{"评论数"})));
             add(new ArrayList<String>(Arrays.asList(new String[]{"分享数"})));
             add(new ArrayList<String>(Arrays.asList(new String[]{"收藏数"})));
-            add(new ArrayList<String>(Arrays.asList(new String[]{"视频id"})));
+            add(new ArrayList<String>(Arrays.asList(new String[]{"视频ID"})));
             add(new ArrayList<String>(Arrays.asList(new String[]{"视频链接"})));
             add(new ArrayList<String>(Arrays.asList(new String[]{"标题"})));
-            add(new ArrayList<String>(Arrays.asList(new String[]{"小说id"})));
+            add(new ArrayList<String>(Arrays.asList(new String[]{"发布时间"})));
+            add(new ArrayList<String>(Arrays.asList(new String[]{"创建时间"})));
+            add(new ArrayList<String>(Arrays.asList(new String[]{"更新时间"})));
         }
     };
 
     @Scheduled(cron = "0 0 * * * ?")
     public void dealTopNovel(){
-//        novelService.dealTopNovel();
+        novelService.dealTopNovel();
         advertiserCostService.dealAdvertiserCost();
         advertiserCostService.dealDailyAdvertiser();
 //        promotionService.dealPromotion();

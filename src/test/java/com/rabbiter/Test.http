@@ -128,7 +128,7 @@ POST http://localhost:8003/api/order/api28
 Content-Type: application/json
 
 {
-  "distributor_id": "1811885914614875",
+  "distributor_id": "1820577333781620",
   "media_source": 1
 }
 
@@ -150,7 +150,7 @@ POST http://localhost:8003/api/order/novel/material
 Content-Type: application/json
 
 {
-"page": "30"
+"page": "1"
 }
 
 ###
@@ -209,7 +209,7 @@ Content-Type: application/json
 
 ###
 
-POST http://106.14.81.169:8003/api/novel/dealTopNovel_test
+POST http://106.14.81.169:8003/api/novel/
 Content-Type: application/json
 
 {
