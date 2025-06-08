@@ -4,18 +4,57 @@
 
 
     <insert id="batchInsertNovel" parameterType="java.util.Map">
-        INSERT INTO `likeCount` (materialId, likeCount, commentCount, shareCount, favoriteCount, heat) VALUES
+        INSERT INTO `${tableName}` (materialId, likeCount, commentCount, shareCount, favoriteCount, heat) VALUES
         <foreach collection="likeCountList" item="item" separator=",">
             (#{item.materialId}, #{item.likeCount}, #{item.commentCount}, #{item.shareCount}, #{item.favoriteCount}, #{item.heat})
         </foreach>
     </insert>
 
+    <insert id="batchInsertPlaylet" parameterType="java.util.Map">
+        INSERT INTO `${tableName}` (miniseriesId, miniseriesName, materialId, uniqueId, title, width, height, duration, coverUrl, videoUrl,
+        likeCount, commentCount, shareCount, favoriteCount, heat, createTime, updateTime, materialType, videoMd5) VALUES
+        <foreach collection="likeCountList" item="item" separator=",">
+            (#{item.miniseriesId}, #{item.miniseriesName}, #{item.materialId}, #{item.uniqueId}, #{item.title},  #{item.width}, #{item.height}, #{item.duration}, #{item.coverUrl}, #{item.videoUrl},
+            #{item.likeCount}, #{item.commentCount}, #{item.shareCount}, #{item.favoriteCount}, #{item.heat}, #{item.createTime}, #{item.updateTime}, #{item.materialType}, #{item.videoMd5})
+        </foreach>
+    </insert>
+
     <select id="selectLikeCount" resultType="java.util.Map" >
-        SELECT * FROM `likeCount` ORDER BY CAST(heat AS UNSIGNED) desc LIMIT 500
+        SELECT * FROM `${tableName}` ORDER BY CAST(heat AS UNSIGNED) desc LIMIT 1000
     </select>
 
+    <select id="selectheatPlaylet" resultType="java.util.Map" >
+        SELECT * FROM `${tableName}` where likeCount > 100 and createTime &gt; #{time} ORDER BY CAST(heat AS UNSIGNED) desc
+    </select>
+
+    <update id="createPlaylet">
+         CREATE TABLE IF not EXISTS  `${tableName}`  (
+          `id` int(0) NOT NULL AUTO_INCREMENT,
+          `miniseriesId` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `miniseriesName` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `materialId` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `uniqueId` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `title` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+          `width` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `height` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `duration` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `coverUrl` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `videoUrl` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `likeCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `commentCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `shareCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `favoriteCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `heat` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `createTime` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `updateTime` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `materialType` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          `videoMd5` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+          PRIMARY KEY (`id`) USING BTREE
+         ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+    </update>
+
     <update id="createLikeCount">
-         CREATE TABLE IF not EXISTS  `likeCount`  (
+         CREATE TABLE IF not EXISTS  `${tableName}`  (
           `id` int(0) NOT NULL AUTO_INCREMENT,
           `materialId` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
           `likeCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
@@ -28,11 +67,11 @@
     </update>
 
     <update id="dropLikeCount">
-         DROP TABLE IF EXISTS  `likeCount`;
+         DROP TABLE IF EXISTS  `${tableName}`;
     </update>
 
     <update id="createNovelInfo">
-         CREATE TABLE IF not EXISTS  `novelinfo`  (
+         CREATE TABLE IF not EXISTS  `${tableName}`  (
           `id` int(0) NOT NULL AUTO_INCREMENT,
           `materialId` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
           `likeCount` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,

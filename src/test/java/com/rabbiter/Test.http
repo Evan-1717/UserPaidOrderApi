@@ -164,7 +164,34 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:8003/api/novel/playleInfo_test
+Content-Type: application/json
+
+{
+"token": "3001bcc97ddda7a84979b5bff1012614b078"
+}
+
+###
+
+POST http://localhost:8003/api/novel/dealTopPlaylet_test
+Content-Type: application/json
+
+{
+
+}
+
+###
+
 POST http://localhost:8003/api/novel/dealTopNovel_test
+Content-Type: application/json
+
+{
+
+}
+
+###
+
+POST http://106.14.81.169:8003/api/novel/dealTopNovel_test
 Content-Type: application/json
 
 {

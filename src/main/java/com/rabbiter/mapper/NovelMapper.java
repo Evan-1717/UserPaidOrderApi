@@ -18,18 +18,23 @@ import java.util.Map;
  */
 @Mapper
 public interface NovelMapper extends BaseMapper<UserPaidOrder> {
-    void batchInsertNovel(@Param("likeCountList")List<Map<String, String>> likeCountList);
+    void batchInsertNovel(@Param("likeCountList")List<Map<String, String>> likeCountList, @Param("tableName") String tableName);
+
+    void batchInsertPlaylet(@Param("likeCountList")List<Map<String, String>> likeCountList, @Param("tableName") String tableName);
 
     void insertNovel(Map<String, String> map);
 
+    void createPlaylet(@Param("tableName") String tableName);
 
-    void createLikeCount();
+    void createLikeCount(@Param("tableName") String tableName);
 
-    void createNovelInfo();
+    void createNovelInfo(@Param("tableName") String tableName);
 
-    void dropLikeCount();
+    void dropLikeCount(@Param("tableName") String tableName);
 
-    void dropNovelInfo();
+    void dropNovelInfo(@Param("tableName") String tableName);
 
-    List<Map<String, Object>> selectLikeCount();
+    List<Map<String, Object>> selectLikeCount(@Param("tableName") String tableName);
+
+    List<Map<String, Object>> selectheatPlaylet(@Param("tableName") String tableName, @Param("time") long time);
 }
